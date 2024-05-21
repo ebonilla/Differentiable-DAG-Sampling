@@ -1,10 +1,3 @@
-import numpy as np
-import torch
-import networkx as nx
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-import time
-
 from src.probabilistic_dag_model.probabilistic_dag_autoencoder import ProbabilisticDAGAutoencoder
 from src.probabilistic_dag_model.train_probabilistic_dag_autoencoder import train_autoencoder
 from src.datasets.DAGDataset import get_dag_dataset
