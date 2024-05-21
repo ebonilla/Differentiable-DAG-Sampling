@@ -38,11 +38,16 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "--data-dir", type=str, default="./", help="base results directory"
 )
+parser.add_argument(
+    "--epochs", type=int, default=100, help="Maximum numbe of epochs"
+)
 
 args = parser.parse_args()
 param_dict['dataset_directory'] = args.data_dir
 param_dict['directory_model'] = 'model_dds/' + args.data_dir
 param_dict['directory_results'] = 'results_dds/' + args.data_dir
+param_dict['max_epochs'] = args.epochs
+
 
 os.makedirs(param_dict['directory_model'], exist_ok=True)
 os.makedirs(param_dict['directory_results'], exist_ok=True)

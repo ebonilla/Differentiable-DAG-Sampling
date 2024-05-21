@@ -15,6 +15,8 @@ from src.probabilistic_dag_model.test_probabilistic_dag_autoencoder import test_
 ex = Experiment()
 seml.setup_logger(ex)
 
+import numpy as np
+
 @ex.post_run_hook
 def collect_stats(_run):
     seml.collect_exp_stats(_run)
@@ -167,6 +169,14 @@ def run(
                                                                      model_path=model_path,
                                                                      full_config_dict=full_config_dict)
     t_end = time.time()
+
+    # EVB: sampling form learing model
+    n_samples = 100
+    dags = np.zeros((n_samples, input_dim, input_dim))
+    for i in range(n_samples):
+        dags[i, :, :] = model.probabilistic_dag.sample().detach().cpu().numpy()
+    torch.save(obj=dags, f=directory_results + '/' + 'dds' + '_dags' + '.pt')
+
 
     ################
     ## Test model ##
