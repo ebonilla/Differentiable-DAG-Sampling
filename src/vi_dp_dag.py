@@ -6,7 +6,7 @@ from src.run_probabilistic_dag_autoencoder import run
 param_dict = {
     'seed_dataset': 123,  # Seed to shuffle dataset. int
     'dataset_name': 'data_p10_e10_n1000_GP',  # Dataset name. string
-    'dataset_directory': 'src/datasets/datasets_dp-dag',  # Dataset directory. string
+    'dataset_directory': 'src/datasets/datasets_dp_dag',  # Dataset directory. string
     'i_dataset': 1,  # Dataset name. string
     'split': [.8, .1, .1],  # Split for train/val/test sets. list of floats
 
