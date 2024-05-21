@@ -6,9 +6,13 @@ import torch.nn.functional as F
 from torch.nn.functional import gumbel_softmax
 from src.probabilistic_dag_model.soft_sort import SoftSort_p1, gumbel_sinkhorn
 
+import os
+
+use_cuda = os.environ.get('USE_CUDA', 'Not Set')
+
 # ------------------------------------------------------------------------------
 
-if torch.cuda.is_available():
+if torch.cuda.is_available() and use_cuda:
     device = torch.device('cuda')
 else:
     device = torch.device('cpu')
