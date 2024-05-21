@@ -1,5 +1,6 @@
 import argparse
 from src.run_probabilistic_dag_autoencoder import run
+import os
 
 param_dict = {
     'seed_dataset': 123,  # Seed to shuffle dataset. int
@@ -41,7 +42,12 @@ parser.add_argument(
 args = parser.parse_args()
 param_dict['dataset_directory'] = args.data_dir
 param_dict['directory_model'] = 'model_dds/' + args.data_dir
-param_dict['directory_results'] = 'results_dds' + args.data_dir
+param_dict['directory_results'] = 'results_dds/' + args.data_dir
+
+os.makedirs(param_dict['directory_model'], exist_ok=True)
+os.makedirs(param_dict['directory_results'], exist_ok=True)
+
+
 
 results = run(**param_dict)
 
