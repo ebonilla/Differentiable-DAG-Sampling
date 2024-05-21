@@ -56,9 +56,10 @@ class DAGDataset:
         default dataset
         """
         # Load the graph and data
-        dag_adj = None
         X = np.load(f'{dataset_directory}/{dataset_name}.npy')
         X = torch.as_tensor(X).type(torch.Tensor)
+
+        dag_adj = torch.zeros(X.shape[1], X.shape[1])
 
         n_data = X.shape[0]
         indices = list(range(n_data))

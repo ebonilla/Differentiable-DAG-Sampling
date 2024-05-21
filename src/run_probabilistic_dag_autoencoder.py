@@ -98,6 +98,7 @@ def run(
                                                                           split=split,
                                                                           seed=seed_dataset)
     input_dim = true_dag_adj.shape[0]
+
     if pd_initial_adj == 'GT':
         pd_initial_adjacency = true_dag_adj
     elif pd_initial_adj == 'RGT':
@@ -177,7 +178,9 @@ def run(
     except OSError:
         print('Error: Creating directory. ' + result_path)
     model.load_state_dict(torch.load(f'{model_path}')['model_state_dict'])
-    metrics = test_autoencoder(model, true_dag_adj, train_loader, test_loader, result_path, seed_dataset)
+
+    # metrics = test_autoencoder(model, true_dag_adj, train_loader, test_loader, result_path, seed_dataset)
+
     shutil.rmtree(result_path)
 
     results = {
@@ -191,4 +194,5 @@ def run(
         'fail_trace': seml.evaluation.get_results
     }
 
-    return {**results, **metrics}
+    # return {**results, **metrics}
+    return {**results}
