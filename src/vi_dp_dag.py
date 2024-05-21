@@ -6,7 +6,7 @@ from src.run_probabilistic_dag_autoencoder import run
 param_dict = {
     'seed_dataset': 123,  # Seed to shuffle dataset. int
     'dataset_name': 'data_p10_e10_n1000_GP',  # Dataset name. string
-    'dataset_directory': 'TO COMPLETE', # Dataset directory. string
+    'dataset_directory': 'src/datasets/datasets_dp-dag',  # Dataset directory. string
     'i_dataset': 1,  # Dataset name. string
     'split': [.8, .1, .1],  # Split for train/val/test sets. list of floats
 
@@ -23,7 +23,7 @@ param_dict = {
     'pd_noise_factor': 1.0,  # Hidden dimensions. list of ints
 
     # Training parameters
-    'directory_results': 'TO COMPLETE',  # Path to save resutls. string
+    'directory_results': 'results_dp_dag',  # Path to save resutls. string
     'max_epochs': 100,  # Maximum number of epochs for training
     'patience': 10,  # Patience for early stopping. int
     'frequency': 2,  # Frequency for early stopping test. int
