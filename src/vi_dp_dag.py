@@ -12,7 +12,7 @@ param_dict = {
 
     # Architecture parameters
     'seed_model': 123,  # Seed to init model. int
-    'directory_model': 'TO COMPLETE',  # Path to save model. string
+    'directory_model': 'models_dp_dag',  # Path to save model. string
     'ma_hidden_dims': [16, 16, 16],  # Output dimension. int
     'ma_architecture': 'linear',  # Output dimension. int
     'ma_fast': False,  # Output dimension. int
