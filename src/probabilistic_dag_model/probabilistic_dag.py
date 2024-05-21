@@ -68,9 +68,13 @@ class ProbabilisticDAG(nn.Module):
 
         # EVB
         # torch.diagonal(e).fill_(-300)
-        # Assign -300 to the diagonal elements using advanced indexing
+        # Clone the diagonal part, modify it, and assign it back
+        diag = e.diagonal().clone().detach()
+        diag.fill_(-300)
+        e = e.clone()
         indices = torch.arange(e.size(0))
-        e[indices, indices] = -300
+        e[indices, indices] = diag
+
 
         self.edge_log_params = torch.nn.Parameter(e)
         if initial_adj is not None:
