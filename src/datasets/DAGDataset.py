@@ -36,7 +36,10 @@ def get_dag_dataset(dataset_directory, dataset_name, i_dataset, batch_size, spli
     elif dataset_name == 'syntren':
         train_loader, val_loader, test_loader, dag_adj = DAGDataset.syntren(dataset_directory, i_dataset, batch_size=batch_size, split=split)
     else:
-        raise NotImplementedError
+        train_loader, val_loader, test_loader, dag_adj = DAGDataset.default(dataset_directory=dataset_directory,
+                                                                            dataset_name=dataset_name,
+                                                                            batch_size=batch_size,
+                                                                            split=split)
 
     return train_loader, val_loader, test_loader, dag_adj
 
@@ -46,6 +49,40 @@ class DAGDataset:
     The dataset class provides static methods to use different datasets and their splits for
     different seeds.
     """
+
+    @classmethod
+    def default(cls, dataset_directory, dataset_name, batch_size, split):
+        """
+        default dataset
+        """
+        # Load the graph and data
+        dag_adj = None
+        X = np.load(f'{dataset_directory}/{dataset_name}.npy')
+        X = torch.as_tensor(X).type(torch.Tensor)
+
+        n_data = X.shape[0]
+        indices = list(range(n_data))
+        split0, split1 = int(n_data * split[0]), int(n_data * (split[0] + split[1]))
+        np.random.shuffle(indices)
+
+        # Train split
+        train_indices = indices[:split0]
+        mean, std = torch.mean(X[train_indices], 0, keepdim=True), torch.std(X[train_indices], 0, keepdim=True)
+        X_scaled = (X - mean) / std
+        train_sampler = SubsetRandomSampler(train_indices)
+        train_loader = torch.utils.data.DataLoader(X_scaled, batch_size=batch_size, sampler=train_sampler,
+                                                   num_workers=8)
+        # Validation split
+        val_indices = indices[split0:split1]
+        val_sampler = SubsetRandomSampler(val_indices)
+        val_loader = torch.utils.data.DataLoader(X_scaled, batch_size=1024, sampler=val_sampler, num_workers=8)
+        # Test split
+        test_indices = indices[split1:]
+        test_sampler = SubsetRandomSampler(test_indices)
+        test_loader = torch.utils.data.DataLoader(X_scaled, batch_size=1024, sampler=test_sampler, num_workers=8)
+
+        return train_loader, val_loader, test_loader, dag_adj
+
 
     @classmethod
     def synthetic(cls, dataset_directory, dataset_name, i_dataset, batch_size, split):
