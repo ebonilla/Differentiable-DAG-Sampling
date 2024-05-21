@@ -65,7 +65,13 @@ class ProbabilisticDAG(nn.Module):
             e.requires_grad = False
             e[zero_indices] = -300
             e.requires_grad = True
-        torch.diagonal(e).fill_(-300)
+
+        # EVB
+        # torch.diagonal(e).fill_(-300)
+        # Assign -300 to the diagonal elements using advanced indexing
+        indices = torch.arange(e.size(0))
+        e[indices, indices] = -300
+
         self.edge_log_params = torch.nn.Parameter(e)
         if initial_adj is not None:
             self.edge_log_params.register_hook(lambda grad: grad * initial_adj.float())
