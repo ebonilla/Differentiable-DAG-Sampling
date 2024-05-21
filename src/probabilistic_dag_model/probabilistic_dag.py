@@ -12,11 +12,12 @@ use_cuda = os.environ.get('USE_CUDA', 'Not Set')
 
 # ------------------------------------------------------------------------------
 
-if torch.cuda.is_available() and use_cuda:
-    device = torch.device('cuda')
-else:
-    device = torch.device('cpu')
-
+# EVB
+# if torch.cuda.is_available() and use_cuda:
+#     device = torch.device('cuda')
+# else:
+#     device = torch.device('cpu')
+device = torch.device('cpu')
 
 class ProbabilisticDAG(nn.Module):
 
