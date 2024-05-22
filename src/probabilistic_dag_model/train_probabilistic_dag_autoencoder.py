@@ -27,7 +27,10 @@ def compute_loss_reconstruction(model, loader):
     return loss, reconstruction
 
 
-def train_autoencoder(model, train_loader, val_loader, max_epochs=200, frequency=2, patience=50, model_path='saved_model', full_config_dict={}):
+def train_autoencoder(model, train_loader, val_loader, max_epochs=200,
+                      frequency=100, patience=50, model_path='saved_model',
+                      directory_results='',
+                      full_config_dict={}):
     model.to(device)
     model.train()
     train_losses, val_losses, train_mses, val_mses = [], [], [], []
@@ -66,5 +69,19 @@ def train_autoencoder(model, train_loader, val_loader, max_epochs=200, frequency
             if int(epoch / frequency) > patience and val_losses[-patience] <= min(val_losses[-patience:]):
                 print('Early Stopping.')
                 break
+
+            # EVB: sampling form learing model
+            n_samples = 100
+            dags = np.zeros((n_samples, model.input_dim, model.input_dim))
+            for i in range(n_samples):
+                dags[i, :, :] = model.probabilistic_dag.sample().detach().cpu().numpy()
+            torch.save(obj=dags, f=directory_results + '/' + 'dds' + '_dags' + '.pt')
+
+    # EVB: sampling form learing model
+    n_samples = 100
+    dags = np.zeros((n_samples, model.input_dim, model.input_dim))
+    for i in range(n_samples):
+        dags[i, :, :] = model.probabilistic_dag.sample().detach().cpu().numpy()
+    torch.save(obj=dags, f=directory_results + '/' + 'dds' + '_dags' + '.pt')
 
     return train_losses, val_losses, train_mses, val_mses
