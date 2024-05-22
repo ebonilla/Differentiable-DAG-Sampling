@@ -35,6 +35,7 @@ class ProbabilisticDAGAutoencoder(nn.Module):
                  pd_lr=1e-3):  # Random seed for init. int
         super().__init__()
 
+        self.input_dim = input_dim
         np.random.seed(seed)
         torch.manual_seed(seed)
         torch.cuda.manual_seed(seed)
